@@ -3,35 +3,92 @@
     --font-family: Arial, sans-serif;
 }
 
+* {
+    box-sizing: border-box;
+}
+
 body {
     background-image: url('https://assets.teenvogue.com/photos/61fc278f1776adeaa12f2bba/1:1/w_4800,h_4800,c_limit/GettyImages-1201616507.jpg');
     background-size: cover;
     background-position: center;
+    background-attachment: fixed;
     min-height: 100vh;
     margin: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     font-family: var(--font-family);
     color: var(--text-color);
+}
+p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 10px 0;
+    color: red;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+}
+.navbar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0 10px;
+}
+
+.navbar nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 15px 30px;
+    border-radius: 12px;
+    width: min(80%, 700px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    padding: 10px 14px;
+    border-radius: 8px;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+.navbar a.active {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.35);
+    text-decoration: none;
+}
+
+.content,
+.A1,
+section.click_me {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 20px auto;
+    width: min(80%, 700px);
+}
+
+.content {
+    min-height: 60vh;
 }
 
 .A1 {
     background: rgba(0, 0, 0, 0.35);
     padding: 20px 30px;
     border-radius: 12px;
-    margin-bottom: 20px;
-    text-align: center;
 }
 
 section.click_me {
     background: rgba(0, 0, 0, 0.45);
     padding: 18px 28px;
     border-radius: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
 }
 
