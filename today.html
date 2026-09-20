@@ -22,5 +22,48 @@
             Click me!
         </a>
     </section>
+
+    <div class="visit-counter" aria-live="polite">
+        <div id="visitCounter">Checking visits...</div>
+        <div id="visitLocation" class="visit-location">Location: Detecting...</div>
+    </div>
+
+    <script>
+        (function () {
+            const storageKey = 'myPumpkinVisitsLast24h';
+            const oneDay = 24 * 60 * 60 * 1000;
+            const now = Date.now();
+            const savedVisits = JSON.parse(localStorage.getItem(storageKey) || '[]');
+            const recentVisits = savedVisits.filter(timestamp => now - timestamp < oneDay);
+            recentVisits.push(now);
+            localStorage.setItem(storageKey, JSON.stringify(recentVisits));
+
+            const counter = document.getElementById('visitCounter');
+            if (counter) {
+                counter.textContent = 'Visited in the last 24 hours: ' + recentVisits.length + ' time' + (recentVisits.length === 1 ? '' : 's');
+            }
+
+            const locationEl = document.getElementById('visitLocation');
+            const savedLocation = localStorage.getItem('myPumpkinLocation');
+            if (savedLocation) {
+                locationEl.textContent = 'Location: ' + savedLocation;
+            } else if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function (position) {
+                        const lat = position.coords.latitude.toFixed(2);
+                        const lng = position.coords.longitude.toFixed(2);
+                        const locationText = lat + ', ' + lng;
+                        localStorage.setItem('myPumpkinLocation', locationText);
+                        locationEl.textContent = 'Location: ' + locationText;
+                    },
+                    function () {
+                        locationEl.textContent = 'Location: unavailable';
+                    }
+                );
+            } else {
+                locationEl.textContent = 'Location: unavailable';
+            }
+        })();
+    </script>
 </body>
 </html>
