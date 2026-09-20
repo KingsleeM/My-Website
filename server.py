@@ -33,7 +33,7 @@ def write_visits(data):
     VISITS_FILE.write_text(json.dumps(data, indent=2), encoding='utf-8')
 
 
-def normalize_ip(headers):
+def normalize_ip(headers, client_ip=None):
     forwarded = headers.get('X-Forwarded-For')
     if forwarded:
         return forwarded.split(',')[0].strip().replace('::ffff:', '')
@@ -41,6 +41,9 @@ def normalize_ip(headers):
     real_ip = headers.get('X-Real-IP')
     if real_ip:
         return real_ip.replace('::ffff:', '')
+
+    if client_ip:
+        return client_ip.replace('::ffff:', '')
 
     return 'unknown'
 
@@ -95,7 +98,7 @@ class SiteHandler(SimpleHTTPRequestHandler):
 
     def handle_visit(self):
         now = int(time.time() * 1000)
-        ip = normalize_ip(self.headers)
+        ip = normalize_ip(self.headers, self.client_address[0] if self.client_address else None)
         visits = read_visits()
         recent_for_ip = [ts for ts in visits.get(ip, []) if now - ts <= ONE_DAY_MS]
         recent_for_ip.append(now)
